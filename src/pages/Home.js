@@ -7,13 +7,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import Button from "@mui/material/Button";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
    const navigate = useNavigate();
-
    const [randevular, setRandevular] = useState(null);
    const [hastalar, setHastalar] = useState(null);
 
@@ -55,9 +54,9 @@ const Home = () => {
                </Button>
             </div>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead sx={{ backgroundColor: "#aaa" }}>
+               <TableHead sx={{ backgroundColor: "#999" }}>
                   <TableRow>
-                     <TableCell>Tarih </TableCell>
+                     <TableCell>Tarih</TableCell>
                      <TableCell>Adı</TableCell>
                      <TableCell>Soyadı</TableCell>
                      <TableCell>Telefon Numarası</TableCell>
@@ -77,7 +76,7 @@ const Home = () => {
                            }}
                         >
                            <TableCell component="th" scope="row">
-                              {randevu.date}
+                              {new Date(randevu.date).toLocaleString()}
                            </TableCell>
                            <TableCell>{aradigimHasta.name}</TableCell>
                            <TableCell>{aradigimHasta.surname}</TableCell>
@@ -92,4 +91,5 @@ const Home = () => {
       </div>
    );
 };
+
 export default Home;

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+
 import Header from "../components/Header";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const HastaEkle = (props) => {
    const navigate = useNavigate();
+
    const [name, setName] = useState("");
    const [surname, setSurname] = useState("");
    const [phone, setPhone] = useState("");
@@ -19,34 +22,35 @@ const HastaEkle = (props) => {
          .then((res) => {
             setHastalar(res.data);
          })
-         .catch((err) => console.log("HastaEkle Sayfası get err", err));
+         .catch((err) => console.log("HastaEkle sayfası getHastalar err", err));
    }, []);
 
    const handleSubmit = (event) => {
       event.preventDefault();
       if (name === "" || surname === "" || phone === "" || sikayet === "") {
-         alert("Bütün alanları doldurmak zorunludur");
+         alert("Bütün alanları doldurmak zorunludur!");
          return;
       }
       if (phone.length !== 11) {
-         alert("telefon numarası 11 haneli olması olmalıdır");
+         alert("Telefon numarası 11 haneli olmalıdır!");
          return;
       }
       const hasNumber = hastalar.find((hasta) => hasta.phone === phone);
+
       if (hasNumber !== undefined) {
-         alert("Bu numara ile zaten kayıtlı hasta vardır.");
+         alert("Bu numarayla kayıtlı bir hasta zaten vardır!");
          return;
       }
 
       const newIslem = {
-         id: String(new Date().getTime()),
+         id: String(new Date().getTime() + 1),
          sikayet: sikayet,
          uygulananTedavi: "",
          yazilanIlaclar: [],
       };
       axios
          .post("http://localhost:3004/islemler", newIslem)
-         .then((Islemres) => {
+         .then((islemRes) => {
             const newHasta = {
                id: String(new Date().getTime()),
                name: name,
@@ -60,16 +64,10 @@ const HastaEkle = (props) => {
                   navigate("/hastalar");
                })
                .catch((err) =>
-                  console.log("hastla sayfası newHasta ekle", err)
+                  console.log("HastaEkle sayfası postHasta err", err)
                );
          })
-         .catch((err) => console.log("hasta ekle sayfası newIslem ekle", err));
-      // axios
-      //    .post("http://localhost:3004/hastalar", newHasta)
-      //    .then((res) => {
-      //       navigate("/hastalar");
-      //    })
-      //    .catch((err) => console.log("hasta ekle sayfası", newHasta));
+         .catch((err) => console.log("HastaEkle sayfası postIslem err", err));
    };
 
    if (hastalar === null) {
@@ -84,7 +82,7 @@ const HastaEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -100,7 +98,7 @@ const HastaEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -112,12 +110,18 @@ const HastaEkle = (props) => {
                   onChange={(event) => setSurname(event.target.value)}
                />
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+               style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "20px 0px",
+               }}
+            >
                <TextField
-                  type={"Number"}
+                  type={"number"}
                   style={{ width: "50%" }}
                   id="outlined-basic"
-                  label="Telefon numarası"
+                  label="Telefon Numarası"
                   variant="outlined"
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
@@ -127,13 +131,13 @@ const HastaEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
                   style={{ width: "50%" }}
                   id="outlined-basic"
-                  label="Hastanın şikayeti"
+                  label="Hastanın Şikayeti"
                   variant="outlined"
                   value={sikayet}
                   onChange={(event) => setSikayet(event.target.value)}
@@ -143,7 +147,7 @@ const HastaEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <Button type="submit" variant="contained">

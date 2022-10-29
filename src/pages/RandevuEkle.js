@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import Header from "../components/Header";
+
+import axios from "axios";
 
 const RandevuEkle = (props) => {
    const navigate = useNavigate();
@@ -13,7 +15,7 @@ const RandevuEkle = (props) => {
    const [surname, setSurname] = useState("");
    const [sikayet, setSikayet] = useState("");
    const [hastalar, setHastalar] = useState(null);
-   const [hasHasta, SetHasHasta] = useState(false);
+   const [hasHasta, setHasHasta] = useState(false);
 
    useEffect(() => {
       axios
@@ -38,7 +40,7 @@ const RandevuEkle = (props) => {
          return;
       }
       if (phone.length !== 11) {
-         alert("Telefon numarası 11 haneli olmak zorundadır");
+         alert("Telefon numarası 11 hane olmak zorundadır");
          return;
       }
       if (hasHasta) {
@@ -63,14 +65,12 @@ const RandevuEkle = (props) => {
                console.log("randevu kayıt", res);
             })
             .catch((err) => console.log(err));
-
          axios
             .post("http://localhost:3004/islemler", newIslem)
             .then((res) => {
-               console.log("islem kayıt", res);
+               console.log("işlem kayıt", res);
             })
             .catch((err) => console.log(err));
-
          axios
             .put(`http://localhost:3004/hastalar/${hasHasta.id}`, updatedHasta)
             .then((res) => {
@@ -100,15 +100,16 @@ const RandevuEkle = (props) => {
          axios
             .post("http://localhost:3004/randevular", newRandevu)
             .then((res) => {
-               console.log("randevu çağırma", res);
+               console.log("randevu kayıt", res);
             })
             .catch((err) => console.log(err));
          axios
             .post("http://localhost:3004/islemler", newIslem)
             .then((res) => {
-               console.log("islem kayıt", res);
+               console.log("işlem kayıt", res);
             })
             .catch((err) => console.log(err));
+
          axios
             .post("http://localhost:3004/hastalar", newHasta)
             .then((res) => {
@@ -127,20 +128,16 @@ const RandevuEkle = (props) => {
       if (arananHasta !== undefined) {
          setName(arananHasta.name);
          setSurname(arananHasta.surname);
-         SetHasHasta(arananHasta);
+         setHasHasta(arananHasta);
       } else {
          setName("");
          setSurname("");
-         SetHasHasta(false);
+         setHasHasta(false);
       }
    };
 
    if (hastalar === null) {
-      return (
-         <div>
-            <h1>Loading...</h1>
-         </div>
-      );
+      return <h1>Loading...</h1>;
    }
    return (
       <div>
@@ -150,21 +147,21 @@ const RandevuEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <input
                   value={date}
+                  defaultValue={new Date("dd/mm/yyyy hh:mm")}
                   onChange={(event) => setDate(event.target.value)}
-                  type={"date"}
+                  type={"datetime-local"}
                />
             </div>
-
             <div
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -181,7 +178,7 @@ const RandevuEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -199,7 +196,7 @@ const RandevuEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -217,7 +214,7 @@ const RandevuEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <TextField
@@ -234,7 +231,7 @@ const RandevuEkle = (props) => {
                style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px 0",
+                  margin: "20px 0px",
                }}
             >
                <Button type="submit" variant="contained">

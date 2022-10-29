@@ -1,6 +1,4 @@
-import Header from "../components/Header";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,16 +6,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Header from "../components/Header";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+
 import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
+
+import EditHastaModal from "../components/EditHastaModal";
 
 const Hastalar = (props) => {
    const navigate = useNavigate();
-
    const [hastalar, setHastalar] = useState(null);
    const [updateComponent, setUpdateComponent] = useState(false);
    const [randevular, setRandevular] = useState(null);
+   const [openEditModal, setOpenEditModal] = useState(false);
+   const [selectedHasta, setSelectedHasta] = useState(null);
+
+   const handleClose = () => {
+      setOpenEditModal(false);
+   };
 
    useEffect(() => {
       axios
@@ -25,7 +34,7 @@ const Hastalar = (props) => {
          .then((res) => {
             setHastalar(res.data);
          })
-         .catch((err) => console.log("Hastalar page gethastalar", err));
+         .catch((err) => console.log("Hastalar page getHastalarErr", err));
       axios
          .get("http://localhost:3004/randevular")
          .then((res) => {
@@ -47,7 +56,9 @@ const Hastalar = (props) => {
                axios
                   .delete(`http://localhost:3004/islemler/${islemId}`)
                   .then((islemDeleteRes) => {})
-                  .catch((err) => console.log("hastalar sayfası del err", err));
+                  .catch((err) =>
+                     console.log("hastalar sayfası deleteIslem err", err)
+                  );
             });
             filteredRandevular.map((item) => {
                axios
@@ -57,7 +68,7 @@ const Hastalar = (props) => {
             });
             setUpdateComponent(!updateComponent);
          })
-         .catch((err) => console.log("Hastalar sayfası hasta delete", err));
+         .catch((err) => console.log("hasatalar sayfası hastaDelete err", err));
    };
 
    if (hastalar === null || randevular === null) {
@@ -71,7 +82,7 @@ const Hastalar = (props) => {
          <TableContainer style={{ marginTop: "50px" }} component={Paper}>
             <div
                style={{
-                  marginBottom: "25px",
+                  marginBottom: "20px",
                   display: "flex",
                   justifyContent: "flex-end",
                }}
@@ -84,19 +95,19 @@ const Hastalar = (props) => {
                </Button>
             </div>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead sx={{ backgroundColor: "#aaa" }}>
+               <TableHead sx={{ backgroundColor: "#999" }}>
                   <TableRow>
-                     <TableCell align="center">Adı</TableCell>
-                     <TableCell align="center">Soyadı</TableCell>
-                     <TableCell align="center">Telefon Numarası</TableCell>
-                     <TableCell align="center">İşlem</TableCell>
+                     <TableCell>Adı</TableCell>
+                     <TableCell>Soyadı</TableCell>
+                     <TableCell>Telefon Numarası</TableCell>
+                     <TableCell>İşlem</TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
                   {hastalar.length === 0 && (
                      <TableRow>
                         <TableCell align="center" colSpan={4}>
-                           Kayıtlı hasta bulunmamaktadır.
+                           Kayıtlı Hasta Bulunmamaktadır
                         </TableCell>
                      </TableRow>
                   )}
@@ -107,14 +118,19 @@ const Hastalar = (props) => {
                            "&:last-child td, &:last-child th": { border: 0 },
                         }}
                      >
-                        <TableCell align="center">{hasta.name}</TableCell>
-                        <TableCell align="center">{hasta.surname}</TableCell>
-                        <TableCell align="center">{hasta.phone}</TableCell>
-                        <TableCell
-                           style={{ display: "flex", justifyContent: "center" }}
-                        >
+                        <TableCell>{hasta.name}</TableCell>
+                        <TableCell>{hasta.surname}</TableCell>
+                        <TableCell>{hasta.phone}</TableCell>
+                        <TableCell>
                            <Stack spacing={2} direction="row">
-                              <Button variant="outlined" color="primary">
+                              <Button
+                                 onClick={() => {
+                                    setOpenEditModal(true);
+                                    setSelectedHasta(hasta);
+                                 }}
+                                 variant="outlined"
+                                 color="primary"
+                              >
                                  Düzenle
                               </Button>
                               <Button
@@ -124,7 +140,13 @@ const Hastalar = (props) => {
                               >
                                  Sil
                               </Button>
-                              <Button variant="outlined" color="secondary">
+                              <Button
+                                 variant="outlined"
+                                 color="secondary"
+                                 onClick={() =>
+                                    navigate(`/hasta-detay/${hasta.id}`)
+                                 }
+                              >
                                  Detaylar
                               </Button>
                            </Stack>
@@ -134,6 +156,14 @@ const Hastalar = (props) => {
                </TableBody>
             </Table>
          </TableContainer>
+         <EditHastaModal
+            updateComponent={updateComponent}
+            setUpdateComponent={setUpdateComponent}
+            hastalar={hastalar}
+            hasta={selectedHasta}
+            open={openEditModal}
+            handleClose={handleClose}
+         />
       </div>
    );
 };

@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Hastalar from "./pages/Hastalar";
 import HastaEkle from "./pages/HastaEkle";
 import RandevuEkle from "./pages/RandevuEkle";
+import HastaDetay from "./pages/HastaDetay";
 
 function App() {
    return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/hastalar" element={<Hastalar />} />
             <Route path="/hasta-ekle" element={<HastaEkle />} />
             <Route path="/randevu-ekle" element={<RandevuEkle />} />
+            <Route path="/hasta-detay/:hastaId" element={<HastaDetay />} />
          </Routes>
       </BrowserRouter>
    );
