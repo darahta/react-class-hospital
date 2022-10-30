@@ -16,6 +16,8 @@ const HastaDetay = () => {
    const [hasta, setHasta] = useState(null);
    const [hastaIslemleri, setHastaIslemleri] = useState([]);
    const [openTedaviModal, setOpenTedaviModal] = useState(false);
+   const [secilenIslem, setSecilenIslem] = useState(null);
+   const [didUpdate, setDidUpdate] = useState(false);
 
    useEffect(() => {
       axios
@@ -40,7 +42,7 @@ const HastaDetay = () => {
                .catch((err) => console.log("err", err));
          })
          .catch((err) => console.log("err", err));
-   }, []);
+   }, [didUpdate]);
 
    return (
       <div>
@@ -69,7 +71,7 @@ const HastaDetay = () => {
                      ) : (
                         <div>
                            {hastaIslemleri.map((islem) => (
-                              <div>
+                              <div key={islem}>
                                  <p>Hastanın Şikayeti: {islem.sikayet}</p>
                                  <p>
                                     {islem.uygulananTedavi === "" ? (
@@ -79,9 +81,10 @@ const HastaDetay = () => {
                                           </span>
                                           &nbsp;&nbsp;&nbsp;&nbsp;
                                           <button
-                                             onClick={() =>
-                                                setOpenTedaviModal(true)
-                                             }
+                                             onClick={() => {
+                                                setOpenTedaviModal(true);
+                                                setSecilenIslem(islem);
+                                             }}
                                           >
                                              Tedavi uygula
                                           </button>
@@ -117,6 +120,9 @@ const HastaDetay = () => {
          <TedaviUygulamaModal
             open={openTedaviModal}
             handleClose={() => setOpenTedaviModal(false)}
+            islem={secilenIslem}
+            didUpdate={didUpdate}
+            setDidUpdate={setDidUpdate}
          />
       </div>
    );

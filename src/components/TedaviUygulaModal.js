@@ -14,10 +14,47 @@ const style = {
 };
 
 const TedaviUygulamaModal = (props) => {
-   const { open, handleClose } = props;
+   const { open, handleClose, islem, didUpdate, setDidUpdate } = props;
+
+   const [uygulananTedavi, setUygulananTedavi] = useState("");
+   const [ilaclar, setIlaclar] = useState("");
+   const [hasuygulanan, setUygulanan] = useState(false);
+   const [hasilac, setHasIlac] = useState(false);
 
    const handleSubmit = (event) => {
       event.preventDefault();
+
+      if (uygulananTedavi === "") {
+         setUygulanan(true);
+         setTimeout(() => {
+            setUygulanan(false);
+         }, 3000);
+         return;
+      }
+      if (ilaclar === "") {
+         setHasIlac(true);
+         setTimeout(() => {
+            setHasIlac(false);
+         }, 3000);
+         return;
+      }
+
+      const seperatedIlaclar = ilaclar.split(",");
+
+      const updatedIslem = {
+         ...islem,
+         uygulananTedavi: uygulananTedavi,
+         yazilanIlaclar: seperatedIlaclar,
+      };
+      axios
+         .put(`http://localhost:3004/islemler/${islem.id}`, updatedIslem)
+         .then((res) => {
+            setUygulananTedavi("");
+            setIlaclar("");
+            handleClose();
+            setDidUpdate(!didUpdate);
+         })
+         .catch((err) => console.log(err));
    };
 
    return (
@@ -44,7 +81,18 @@ const TedaviUygulamaModal = (props) => {
                         id="outlined-basic"
                         label="Uygulanan Tedavi"
                         variant="outlined"
+                        value={uygulananTedavi}
+                        onChange={(event) =>
+                           setUygulananTedavi(event.target.value)
+                        }
                      />
+                     {hasuygulanan && (
+                        <p>
+                           <small style={{ color: "red" }}>
+                              *Lütfen boş bırakmayınız
+                           </small>
+                        </p>
+                     )}
                   </div>
                   <div
                      style={{
@@ -59,7 +107,16 @@ const TedaviUygulamaModal = (props) => {
                         id="outlined-basic"
                         label="Yazılan İlaç (ilaçlar arasında mutlaka virgül bırakınız)"
                         variant="outlined"
+                        value={ilaclar}
+                        onChange={(event) => setIlaclar(event.target.value)}
                      />
+                     {hasilac && (
+                        <p>
+                           <small style={{ color: "red" }}>
+                              *Lütfen boş bırakmayınız
+                           </small>
+                        </p>
+                     )}
                   </div>
 
                   <div
