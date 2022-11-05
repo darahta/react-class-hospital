@@ -11,9 +11,9 @@
       "hastaId": "1667123029086"
     },
     {
-      "id": "1667123099608",
-      "date": "2022-10-10T12:50",
-      "hastaId": "1667123099607"
+      "id": "1667637679251",
+      "date": "2022-11-08T15:45",
+      "hastaId": "1667123029086"
     }
   ],
   "hastalar": [
@@ -31,18 +31,10 @@
       "name": "deneme1",
       "surname": "deneme1",
       "islemIds": [
-        "1667123029085"
+        "1667123029085",
+        "1667637679252"
       ],
       "phone": "05555555551"
-    },
-    {
-      "id": "1667123099607",
-      "name": "deneme4",
-      "surname": "deneme4",
-      "islemIds": [
-        "1667123099606"
-      ],
-      "phone": "05555555554"
     }
   ],
   "islemler": [
@@ -62,8 +54,8 @@
       "yazilanIlaclar": []
     },
     {
-      "id": "1667123099606",
-      "sikayet": "kas ağrısı",
+      "id": "1667637679252",
+      "sikayet": "baş ağrısı",
       "uygulananTedavi": "",
       "yazilanIlaclar": []
     }

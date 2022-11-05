@@ -5,8 +5,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import "..//assets/styles/generalStyle.css";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+   const { hastalarState } = useSelector((state) => state);
+
    return (
       <Box sx={{ flexGrow: 1 }}>
          <AppBar position="static">
@@ -21,6 +24,10 @@ const Header = () => {
                   <Link className="menuLink" to="/hastalar">
                      Hastalar
                   </Link>
+                  <span className="menuLink">
+                     Kayıtlı hasta sayısı:
+                     {hastalarState.hastalar.length}
+                  </span>
                </div>
             </Toolbar>
          </AppBar>
