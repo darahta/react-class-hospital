@@ -46,6 +46,14 @@ const hastalarReducer = (state = initialState, action) => {
             ...state,
             hastalar: [action.payload, ...filteredHastalar],
          };
+      case actionTypes.DELETE_HASTA:
+         const filteredHastalarDelete = state.hastalar.filter(
+            (item) => item.id !== action.payload
+         );
+         return {
+            ...state,
+            hastalar: filteredHastalarDelete,
+         };
 
       default:
          return state;

@@ -15,12 +15,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import EditHastaModal from "../components/EditHastaModal";
+import { useSelector, useDispatch } from "react-redux";
+import actionTypes from "../redux/actions/actionTypes";
 
 const Hastalar = (props) => {
+   const { hastalarState, randevularState } = useSelector((state) => state);
+   const dispatch = useDispatch();
    const navigate = useNavigate();
-   const [hastalar, setHastalar] = useState(null);
    const [updateComponent, setUpdateComponent] = useState(false);
-   const [randevular, setRandevular] = useState(null);
    const [openEditModal, setOpenEditModal] = useState(false);
    const [selectedHasta, setSelectedHasta] = useState(null);
 
@@ -28,34 +30,25 @@ const Hastalar = (props) => {
       setOpenEditModal(false);
    };
 
-   useEffect(() => {
-      axios
-         .get("http://localhost:3004/hastalar")
-         .then((res) => {
-            setHastalar(res.data);
-         })
-         .catch((err) => console.log("Hastalar page getHastalarErr", err));
-      axios
-         .get("http://localhost:3004/randevular")
-         .then((res) => {
-            setRandevular(res.data);
-         })
-         .catch((err) => console.log(err));
-   }, [updateComponent]);
-
    const handleDeleteHasta = (hasta) => {
       console.log(hasta);
-      const filteredRandevular = randevular.filter(
+      const filteredRandevular = randevularState.randevular.filter(
          (item) => item.hastaId === hasta.id
       );
       console.log("filtrelenmiş randevular", filteredRandevular);
       axios
          .delete(`http://localhost:3004/hastalar/${hasta.id}`)
          .then((deleteHastaRes) => {
+            dispatch({ type: actionTypes.DELETE_HASTA, payload: hasta.id });
             hasta.islemIds.map((islemId) => {
                axios
                   .delete(`http://localhost:3004/islemler/${islemId}`)
-                  .then((islemDeleteRes) => {})
+                  .then((islemDeleteRes) => {
+                     dispatch({
+                        type: actionTypes.DELETE_ISLEM,
+                        payload: islemId,
+                     });
+                  })
                   .catch((err) =>
                      console.log("hastalar sayfası deleteIslem err", err)
                   );
@@ -63,7 +56,12 @@ const Hastalar = (props) => {
             filteredRandevular.map((item) => {
                axios
                   .delete(`http://localhost:3004/randevular/${item.id}`)
-                  .then((res) => {})
+                  .then((res) => {
+                     dispatch({
+                        type: actionTypes.DELETE_RANDEVU,
+                        payload: item.id,
+                     });
+                  })
                   .catch((err) => console.log(err));
             });
             setUpdateComponent(!updateComponent);
@@ -71,7 +69,7 @@ const Hastalar = (props) => {
          .catch((err) => console.log("hasatalar sayfası hastaDelete err", err));
    };
 
-   if (hastalar === null || randevular === null) {
+   if (hastalarState.success === false || randevularState.success === false) {
       return <h1>Loading...</h1>;
    }
 
@@ -104,14 +102,14 @@ const Hastalar = (props) => {
                   </TableRow>
                </TableHead>
                <TableBody>
-                  {hastalar.length === 0 && (
+                  {hastalarState.hastalar.length === 0 && (
                      <TableRow>
                         <TableCell align="center" colSpan={4}>
                            Kayıtlı Hasta Bulunmamaktadır
                         </TableCell>
                      </TableRow>
                   )}
-                  {hastalar.map((hasta) => (
+                  {hastalarState.hastalar.map((hasta) => (
                      <TableRow
                         key={hasta.id}
                         sx={{
@@ -157,9 +155,6 @@ const Hastalar = (props) => {
             </Table>
          </TableContainer>
          <EditHastaModal
-            updateComponent={updateComponent}
-            setUpdateComponent={setUpdateComponent}
-            hastalar={hastalar}
             hasta={selectedHasta}
             open={openEditModal}
             handleClose={handleClose}
