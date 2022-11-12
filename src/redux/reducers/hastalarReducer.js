@@ -33,6 +33,19 @@ const hastalarReducer = (state = initialState, action) => {
             fail: true,
             error: action.payload,
          };
+      case actionTypes.ADD_HASTA:
+         return {
+            ...state,
+            hastalar: [action.payload, ...state.hastalar],
+         };
+      case actionTypes.EDIT_HASTA:
+         const filteredHastalar = state.hastalar.filter(
+            (item) => item.id !== action.payload.id
+         );
+         return {
+            ...state,
+            hastalar: [action.payload, ...filteredHastalar],
+         };
 
       default:
          return state;

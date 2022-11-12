@@ -32,6 +32,11 @@ const randevularReducer = (state = initialState, action) => {
             fail: true,
             error: action.payload,
          };
+      case actionTypes.ADD_RANDEVU:
+         return {
+            ...state,
+            randevular: [action.payload, ...state.randevular],
+         };
       default:
          return state;
    }

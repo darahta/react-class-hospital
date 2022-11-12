@@ -32,6 +32,11 @@ const islemlerReducer = (state = initialState, action) => {
             fail: true,
             error: action.payload,
          };
+      case actionTypes.ADD_ISLEM:
+         return {
+            ...state,
+            islemler: [action.payload, ...state.islemler],
+         };
       default:
          return state;
    }
