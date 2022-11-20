@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,14 +14,48 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
    const { randevularState, hastalarState } = useSelector((state) => state);
-   const sortedRandevular = randevularState.randevular.sort(function (
+   const [checkDate, setCheckDate] = useState(new Date());
+
+   useEffect(() => {
+      const interval = setInterval(() => {
+         setCheckDate(new Date());
+         console.log("...");
+      }, 5000);
+      return () => {
+         clearInterval(interval);
+      };
+   }, []);
+
+   var sortedRandevular = randevularState.randevular.sort(function (
       item2,
       item1
    ) {
-      // Turn your strings into dates, and then subtract them
-      // to get a value that is either negative, positive, or zero.
       return new Date(item2.date) - new Date(item1.date);
    });
+
+   const today = new Date();
+   console.log("today", today.getFullYear(), today.getMonth(), today.getDate());
+   sortedRandevular = sortedRandevular.filter((item) => {
+      const date = new Date(item.date);
+      console.log(date);
+      if (date.getFullYear() < today.getFullYear()) {
+         return false;
+      }
+      if (
+         date.getFullYear() === today.getFullYear() &&
+         date.getMonth() < today.getMonth()
+      ) {
+         return false;
+      }
+      if (
+         date.getMonth() === today.getMonth() &&
+         date.getDate() < today.getDate()
+      ) {
+         return false;
+      }
+      return true;
+   });
+
    const navigate = useNavigate();
 
    if (
@@ -73,11 +107,23 @@ const Home = () => {
                      const aradigimHasta = hastalarState.hastalar.find(
                         (hasta) => hasta.id === randevu.hastaId
                      );
+                     const date = new Date(randevu.date);
+                     var isNear = false;
+                     if (date.getTime() - checkDate.getTime() <= 300000) {
+                        isNear = true;
+                     }
+                     if (checkDate.getTime() - date.getTime() > 60000)
+                        isNear = false;
                      return (
                         <TableRow
+                           style={{
+                              backgroundColor: isNear ? "yellow" : "white",
+                           }}
                            key={randevu.id}
                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
+                              "&:last-child td, &:last-child th": {
+                                 border: 0,
+                              },
                            }}
                         >
                            <TableCell component="th" scope="row">

@@ -10,15 +10,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TedaviUygulamaModal from "../components/TedaviUygulaModal";
+import { useSelector } from "react-redux";
 
 const HastaDetay = () => {
    const { hastaId } = useParams();
+   const { islemlerState } = useSelector((state) => state);
    const [hasta, setHasta] = useState(null);
    const [hastaIslemleri, setHastaIslemleri] = useState([]);
    const [openTedaviModal, setOpenTedaviModal] = useState(false);
    const [secilenIslem, setSecilenIslem] = useState(null);
-   const [didUpdate, setDidUpdate] = useState(false);
-
    useEffect(() => {
       axios
          .get(`http://localhost:3004/hastalar/${hastaId}`)
@@ -42,7 +42,7 @@ const HastaDetay = () => {
                .catch((err) => console.log("err", err));
          })
          .catch((err) => console.log("err", err));
-   }, [didUpdate]);
+   }, [islemlerState.islemler]);
 
    return (
       <div>
@@ -121,8 +121,6 @@ const HastaDetay = () => {
             open={openTedaviModal}
             handleClose={() => setOpenTedaviModal(false)}
             islem={secilenIslem}
-            didUpdate={didUpdate}
-            setDidUpdate={setDidUpdate}
          />
       </div>
    );
