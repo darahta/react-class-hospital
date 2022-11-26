@@ -44,6 +44,16 @@
       "id": "1668928453735",
       "date": "2022-11-20T10:20",
       "hastaId": "1668928453734"
+    },
+    {
+      "id": "1669453609538",
+      "date": "2022-11-27T12:06",
+      "hastaId": "1668926815388"
+    },
+    {
+      "id": "1669453635892",
+      "date": "2022-11-28T12:06",
+      "hastaId": "1669453635891"
     }
   ],
   "hastalar": [
@@ -91,6 +101,33 @@
         "1668928453733"
       ],
       "phone": "05555555559"
+    },
+    {
+      "id": "1669450010602",
+      "name": "mehmet",
+      "surname": "süm",
+      "islemIds": [
+        "1669450010601"
+      ],
+      "phone": "05414354534"
+    },
+    {
+      "id": "1669450122457",
+      "name": "fd",
+      "surname": "fs",
+      "islemIds": [
+        "1669450122456"
+      ],
+      "phone": "05555555503"
+    },
+    {
+      "id": "1669453635891",
+      "name": "deneme",
+      "surname": "deneme",
+      "islemIds": [
+        "1669453635890"
+      ],
+      "phone": "05555555574"
     }
   ],
   "islemler": [
@@ -145,6 +182,48 @@
     {
       "id": "1668928453733",
       "sikayet": "jlkşfd",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669448488416",
+      "sikayet": "deneme",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669449831961",
+      "sikayet": "jkljdfl",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669450010601",
+      "sikayet": "hasta",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669450122456",
+      "sikayet": "jklfd",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669450176912",
+      "sikayet": "jkfdf",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669453609539",
+      "sikayet": "denem",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1669453635890",
+      "sikayet": "ateş",
       "uygulananTedavi": "",
       "yazilanIlaclar": []
     }

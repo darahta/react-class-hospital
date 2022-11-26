@@ -18,6 +18,9 @@ const Header = () => {
                   HOSPITAL
                </Typography>
                <div style={{ display: "flex", gap: "20px" }}>
+                  <Link className="menuLink" to="/resim-yukle">
+                     Resim Yükle
+                  </Link>
                   <Link className="menuLink" to="/">
                      Anasayfa
                   </Link>

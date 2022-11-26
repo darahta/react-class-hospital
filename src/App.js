@@ -9,6 +9,8 @@ import api from "./api/api";
 import urls from "./api/urls";
 import { useDispatch } from "react-redux";
 import actionTypes from "./redux/actions/actionTypes";
+import RandevuDetay from "./pages/RandevuDetay";
+import ResimDeneme from "./pages/ResimDeneme";
 function App() {
    const dispatch = useDispatch();
 
@@ -66,6 +68,11 @@ function App() {
             <Route path="/hasta-ekle" element={<HastaEkle />} />
             <Route path="/randevu-ekle" element={<RandevuEkle />} />
             <Route path="/hasta-detay/:hastaId" element={<HastaDetay />} />
+            <Route path="resim-yukle" element={<ResimDeneme />} />
+            <Route
+               path="/randevu-detay/:randevuId"
+               element={<RandevuDetay />}
+            />
          </Routes>
       </BrowserRouter>
    );

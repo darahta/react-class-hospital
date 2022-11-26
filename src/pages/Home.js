@@ -8,18 +8,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-
+import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import api from "../api/api";
+import urls from "../api/urls";
+import { useDispatch } from "react-redux";
+import actionTypes from "../redux/actions/actionTypes";
 
 const Home = () => {
+   const dispatch = useDispatch();
    const { randevularState, hastalarState } = useSelector((state) => state);
    const [checkDate, setCheckDate] = useState(new Date());
 
    useEffect(() => {
       const interval = setInterval(() => {
          setCheckDate(new Date());
-         console.log("...");
       }, 5000);
       return () => {
          clearInterval(interval);
@@ -34,10 +38,10 @@ const Home = () => {
    });
 
    const today = new Date();
-   console.log("today", today.getFullYear(), today.getMonth(), today.getDate());
+
    sortedRandevular = sortedRandevular.filter((item) => {
       const date = new Date(item.date);
-      console.log(date);
+
       if (date.getFullYear() < today.getFullYear()) {
          return false;
       }
@@ -67,6 +71,13 @@ const Home = () => {
       return <h1>Loading...</h1>;
    }
 
+   const deleteRandevu = (id) => {
+      api.delete(`${urls.randevular}/${id}`)
+         .then((randevuRes) => {
+            dispatch({ type: actionTypes.DELETE_RANDEVU, payload: id });
+         })
+         .catch((err) => console.log(err));
+   };
    return (
       <div>
          <Header />
@@ -132,7 +143,29 @@ const Home = () => {
                            <TableCell>{aradigimHasta.name}</TableCell>
                            <TableCell>{aradigimHasta.surname}</TableCell>
                            <TableCell>{aradigimHasta.phone}</TableCell>
-                           <TableCell>butonlar gelecek</TableCell>
+                           <TableCell>
+                              <Stack spacing={2} direction="row">
+                                 <Button variant="outlined" color="primary">
+                                    Düzenle
+                                 </Button>
+                                 <Button
+                                    onClick={() => deleteRandevu(randevu.id)}
+                                    variant="outlined"
+                                    color="error"
+                                 >
+                                    Sil
+                                 </Button>
+                                 <Button
+                                    onClick={() =>
+                                       navigate(`randevu-detay/${randevu.id}`)
+                                    }
+                                    variant="outlined"
+                                    color="secondary"
+                                 >
+                                    Detaylar
+                                 </Button>
+                              </Stack>
+                           </TableCell>
                         </TableRow>
                      );
                   })}
