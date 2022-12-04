@@ -17,7 +17,6 @@ const RandevuEkle = (props) => {
    const [name, setName] = useState("");
    const [surname, setSurname] = useState("");
    const [sikayet, setSikayet] = useState("");
-
    const [hasHasta, setHasHasta] = useState(false);
 
    const handleSubmit = (event) => {

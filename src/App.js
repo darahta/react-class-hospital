@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import actionTypes from "./redux/actions/actionTypes";
 import RandevuDetay from "./pages/RandevuDetay";
 import ResimDeneme from "./pages/ResimDeneme";
+import RandevuDuzenle from "./pages/RandevuDuzenle";
 function App() {
    const dispatch = useDispatch();
 
@@ -72,6 +73,10 @@ function App() {
             <Route
                path="/randevu-detay/:randevuId"
                element={<RandevuDetay />}
+            />
+            <Route
+               path="/randuvu-duzenle/:randevuId"
+               element={<RandevuDuzenle />}
             />
          </Routes>
       </BrowserRouter>

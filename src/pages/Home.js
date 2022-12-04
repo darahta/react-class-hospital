@@ -145,7 +145,13 @@ const Home = () => {
                            <TableCell>{aradigimHasta.phone}</TableCell>
                            <TableCell>
                               <Stack spacing={2} direction="row">
-                                 <Button variant="outlined" color="primary">
+                                 <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                       navigate(`randuvu-duzenle/${randevu.id}`)
+                                    }
+                                 >
                                     Düzenle
                                  </Button>
                                  <Button

@@ -54,6 +54,11 @@
       "id": "1669453635892",
       "date": "2022-11-28T12:06",
       "hastaId": "1669453635891"
+    },
+    {
+      "id": "1670159882766",
+      "date": "2022-12-24T16:17",
+      "hastaId": "1670159882765"
     }
   ],
   "hastalar": [
@@ -128,6 +133,15 @@
         "1669453635890"
       ],
       "phone": "05555555574"
+    },
+    {
+      "id": "1670159882765",
+      "name": "mehmet",
+      "surname": "süm",
+      "islemIds": [
+        "1670159882764"
+      ],
+      "phone": "05555555540"
     }
   ],
   "islemler": [
@@ -224,6 +238,12 @@
     {
       "id": "1669453635890",
       "sikayet": "ateş",
+      "uygulananTedavi": "",
+      "yazilanIlaclar": []
+    },
+    {
+      "id": "1670159882764",
+      "sikayet": "bel ağrısı",
       "uygulananTedavi": "",
       "yazilanIlaclar": []
     }
